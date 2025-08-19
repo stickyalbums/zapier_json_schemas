@@ -1,0 +1,89 @@
+{
+    "name": "ContractParseResult",
+    "strict": true,
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["ok", "fail"],
+          "description": "ok only if all required header fields are non-empty"
+        },
+        "missingFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["preparedFor", "contractNumber", "contractDate", "expirationDate", "eventName"]
+          }
+        },
+        "header": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "companyName":   { "type": "string" },
+            "companyAddress":{ "type": "string" },
+            "companyPhone":  { "type": "string" },
+            "companyEmail":  { "type": "string" },
+            "preparedFor":   { "type": "string" },
+            "contractNumber":{ "type": "string" },
+            "contractDate":  { "type": "string" },
+            "expirationDate":{ "type": "string" },
+            "eventName":     { "type": "string" }
+          },
+          "required": [
+            "companyName",
+            "companyAddress",
+            "companyPhone",
+            "companyEmail",
+            "preparedFor",
+            "contractNumber",
+            "contractDate",
+            "expirationDate",
+            "eventName"
+          ]
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name":    { "type": "string" },
+              "amount":  { "type": "string", "description": "Monetary value without $, e.g. 2,650.00; or 'TBD'; empty string for T&C" },
+              "details": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            },
+            "required": ["name", "amount", "details"]
+          }
+        },
+        "diagnostics": {
+          "type": "object",
+          "description": "Optional vendor-facing metadata for troubleshooting.",
+          "additionalProperties": true,
+          "properties": {
+            "notes": { "type": "string" },
+            "inputStats": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "pages": { "type": "integer" },
+                "nodes": { "type": "integer" }
+              }
+            },
+            "evidence": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "required": ["status", "missingFields", "header", "activities"]
+    }
+  }
+  
